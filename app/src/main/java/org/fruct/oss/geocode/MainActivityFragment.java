@@ -3,6 +3,7 @@ package org.fruct.oss.geocode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,24 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.fruct.oss.geopoint.GeoPoint;
+import org.fruct.oss.geopoint.base.KPIproxy;
+import org.fruct.oss.geopoint.base.SIBFactory;
+import org.fruct.oss.geopoint.base.TaskListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import sofia_kp.KPICore;
+import sofia_kp.SIBResponse;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
+
+    private static String TAG = "MainActivityFragment";
 
     /**
      * Хост СИБа
@@ -78,7 +86,17 @@ public class MainActivityFragment extends Fragment {
             public void onClick(View view) {
                 //TODO: коннект к СИБу, подписка на тройки, загрузка данных в список
                 //TODO: продумать отключение от сиба и переконнект?
-                Toast.makeText(getContext(), "Connection was successful!", Toast.LENGTH_LONG).show();
+                KPIproxy core = SIBFactory.getInstance().getAccessPoint();
+                core.setAddr(tbHost.getText().toString(), Integer.parseInt(tbPort.getText().toString()));
+                core.connect().addListener(new TaskListener() {
+                    public void onSuccess() {
+                        Toast.makeText(getContext(), "Connection was successful!", Toast.LENGTH_LONG).show();
+                    }
+
+                    public void onError(Throwable ex) {
+                        Toast.makeText(getContext(), "Error: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
 

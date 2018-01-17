@@ -1,5 +1,8 @@
 package org.fruct.oss.geopoint;
 
+import org.fruct.oss.geopoint.base.BaseRDF;
+import org.fruct.oss.geopoint.base.SIBFactory;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import sofia_kp.KPICore;
@@ -318,12 +321,12 @@ public class GeoPoint extends BaseRDF {
 
 
         SIBResponse ret;
-        ret = _insert(newTriples);
+        ret = SIBFactory.getInstance().getAccessPoint(_accessPointName).insert(newTriples);
         if (!ret.isConfirmed()) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
-        ret = _remove(removeTriples);
+        ret = SIBFactory.getInstance().getAccessPoint(_accessPointName).remove(removeTriples);
         if (!ret.isConfirmed()) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
