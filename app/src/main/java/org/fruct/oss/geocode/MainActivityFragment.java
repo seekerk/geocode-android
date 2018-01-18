@@ -1,8 +1,8 @@
 package org.fruct.oss.geocode;
 
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,19 +84,22 @@ public class MainActivityFragment extends Fragment {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: коннект к СИБу, подписка на тройки, загрузка данных в список
+                //TODO: подписка на тройки, загрузка данных в список
                 //TODO: продумать отключение от сиба и переконнект?
                 KPIproxy core = SIBFactory.getInstance().getAccessPoint();
                 core.setAddr(tbHost.getText().toString(), Integer.parseInt(tbPort.getText().toString()));
                 core.connect().addListener(new TaskListener() {
-                    public void onSuccess() {
+                    public void onSuccess(SIBResponse resp) {
                         Toast.makeText(getContext(), "Connection was successful!", Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "SUCCESS");
                     }
 
                     public void onError(Throwable ex) {
                         Toast.makeText(getContext(), "Error: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "ERROR");
                     }
                 });
+                Log.d(TAG, "Main thread: " + Thread.currentThread().getName());
             }
         });
 
