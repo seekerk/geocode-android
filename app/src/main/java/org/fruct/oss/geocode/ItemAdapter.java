@@ -1,6 +1,7 @@
 package org.fruct.oss.geocode;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import java.util.List;
  */
 
 public class ItemAdapter extends BaseAdapter {
+    private static String TAG = ItemAdapter.class.getName();
+
     Context ctx;
 
     // спиоск точек
@@ -55,8 +58,9 @@ public class ItemAdapter extends BaseAdapter {
         }
 
         GeoPoint itm = (GeoPoint) getItem(i);
-        ((TextView) view.findViewById(R.id.latitude)).setText(String.format("%1$,.2f", itm.getHasLatitude().get(0)));
-        ((TextView) view.findViewById(R.id.longitude)).setText(String.format("%1$,.2f", itm.getHasLongitude().get(0)));
+        Log.d(TAG, "Point latitude: \"" + itm.getHasLatitude().get(0) + "\"");
+        ((TextView) view.findViewById(R.id.latitude)).setText(String.format("%1$,.6f", Double.valueOf(itm.getHasLatitude().get(0))));
+        ((TextView) view.findViewById(R.id.longitude)).setText(String.format("%1$,.6f", Double.valueOf(itm.getHasLongitude().get(0))));
 
         return view;
     }

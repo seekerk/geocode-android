@@ -12,11 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import org.fruct.oss.geopoint.GeoPoint;
+import org.fruct.oss.geopoint.base.TaskListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import sofia_kp.SIBResponse;
 
 /**
  * Created by kulakov on 11.01.18.
@@ -61,6 +64,7 @@ public class AddItemFragment extends Fragment {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((MainActivity)getActivity()).hideSoftKeyboard();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 getFragmentManager().popBackStack();
                 ft.commit();
@@ -70,6 +74,7 @@ public class AddItemFragment extends Fragment {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((MainActivity)getActivity()).hideSoftKeyboard();
                 Double latitude;
                 Double longitude;
                 try {
@@ -121,7 +126,21 @@ public class AddItemFragment extends Fragment {
                     }
                 }
 
-                pt.update();
+                pt.update().addListener(new TaskListener() {
+                    @Override
+                    public void onSuccess(SIBResponse response) {
+                        Toast.makeText(getContext(), "Point was added successfully", Toast.LENGTH_LONG).show();
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        getFragmentManager().popBackStack();
+                        ft.commit();
+                    }
+
+                    @Override
+                    public void onError(Exception ex) {
+                        Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
+                        ex.printStackTrace();
+                    }
+                });
             }
         });
 

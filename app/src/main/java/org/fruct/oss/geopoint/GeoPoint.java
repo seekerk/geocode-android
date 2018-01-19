@@ -2,6 +2,7 @@ package org.fruct.oss.geopoint;
 
 import org.fruct.oss.geopoint.base.BaseRDF;
 import org.fruct.oss.geopoint.base.SIBFactory;
+import org.fruct.oss.geopoint.base.TaskListener;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -239,138 +240,168 @@ public class GeoPoint extends BaseRDF {
     //============== HasLatitude =============
 
 
-    public void update() {
+    public InteractionSIBTask update() {
+        final InteractionSIBTask task = new InteractionSIBTask();
         // update triple store
-        load();
+        load().addListener(new TaskListener() {
+            @Override
+            public void onSuccess(SIBResponse response) {
 
-        // триплеты для добавления
-        ArrayList<ArrayList<String>> newTriples = new ArrayList();
+                // триплеты для добавления
+                ArrayList<ArrayList<String>> newTriples = new ArrayList();
 
-        // триплеты для удаления
-        ArrayList<ArrayList<String>> removeTriples = new ArrayList();
+                // триплеты для удаления
+                ArrayList<ArrayList<String>> removeTriples = new ArrayList();
 
-        // 1. проверяем, новый ли индивид. Если новый, то у него нет триплетов с сиба
-        if (getInTriples(RDF_TYPE_URI).isEmpty()) {
-            // Добавляем триплет для класса индивида
-            newTriples.add(createTriple(getID(), RDF_TYPE_URI, getURI()));
-        }
-
-                if (_IsWest_new != null) {
-                    // получаем старые значения
-                    ArrayList<String> oldVals = getInTriples(IsWest_URI);
-                    Iterator<String> itrNew = _IsWest_new.iterator();
-                    while (itrNew.hasNext()) {
-                        String curNew = itrNew.next();
-                        // ищем старое значение
-                        Iterator<String> itrOld = oldVals.iterator();
-                        while(itrOld.hasNext()) {
-                            String curOld = itrOld.next();
-                            if (curNew.equals(curOld)) {
-                                itrNew.remove();
-                                itrOld.remove();
-                                break;
-                            }
-                        }
-                    }
-                    for(String val : _IsWest_new) {
-                        newTriples.add(createTriple(getID(), IsWest_URI, val, "uri", "literal"));
-                    }
-                    for(String val : oldVals){
-                        removeTriples.add(createTriple(getID(), IsWest_URI, val, "uri", "literal"));
-                    }
-        	    _IsWest_new = null;
+                // 1. проверяем, новый ли индивид. Если новый, то у него нет триплетов с сиба
+                if (getInTriples(RDF_TYPE_URI).isEmpty()) {
+                    // Добавляем триплет для класса индивида
+                    newTriples.add(createTriple(getID(), RDF_TYPE_URI, getURI()));
                 }
-        //-----------------------
-                if (_IsNorth_new != null) {
-                    // получаем старые значения
-                    ArrayList<String> oldVals = getInTriples(IsNorth_URI);
-                    Iterator<String> itrNew = _IsNorth_new.iterator();
-                    while (itrNew.hasNext()) {
-                        String curNew = itrNew.next();
-                        // ищем старое значение
-                        Iterator<String> itrOld = oldVals.iterator();
-                        while(itrOld.hasNext()) {
-                            String curOld = itrOld.next();
-                            if (curNew.equals(curOld)) {
-                                itrNew.remove();
-                                itrOld.remove();
-                                break;
+
+                        if (_IsWest_new != null) {
+                            // получаем старые значения
+                            ArrayList<String> oldVals = getInTriples(IsWest_URI);
+                            Iterator<String> itrNew = _IsWest_new.iterator();
+                            while (itrNew.hasNext()) {
+                                String curNew = itrNew.next();
+                                // ищем старое значение
+                                Iterator<String> itrOld = oldVals.iterator();
+                                while(itrOld.hasNext()) {
+                                    String curOld = itrOld.next();
+                                    if (curNew.equals(curOld)) {
+                                        itrNew.remove();
+                                        itrOld.remove();
+                                        break;
+                                    }
+                                }
                             }
-                        }
-                    }
-                    for(String val : _IsNorth_new) {
-                        newTriples.add(createTriple(getID(), IsNorth_URI, val, "uri", "literal"));
-                    }
-                    for(String val : oldVals){
-                        removeTriples.add(createTriple(getID(), IsNorth_URI, val, "uri", "literal"));
-                    }
-        	    _IsNorth_new = null;
-                }
-        //-----------------------
-                if (_HasLongitude_new != null) {
-                    // получаем старые значения
-                    ArrayList<String> oldVals = getInTriples(HasLongitude_URI);
-                    Iterator<String> itrNew = _HasLongitude_new.iterator();
-                    while (itrNew.hasNext()) {
-                        String curNew = itrNew.next();
-                        // ищем старое значение
-                        Iterator<String> itrOld = oldVals.iterator();
-                        while(itrOld.hasNext()) {
-                            String curOld = itrOld.next();
-                            if (curNew.equals(curOld)) {
-                                itrNew.remove();
-                                itrOld.remove();
-                                break;
+                            for(String val : _IsWest_new) {
+                                newTriples.add(createTriple(getID(), IsWest_URI, val, "uri", "literal"));
                             }
-                        }
-                    }
-                    for(String val : _HasLongitude_new) {
-                        newTriples.add(createTriple(getID(), HasLongitude_URI, val, "uri", "literal"));
-                    }
-                    for(String val : oldVals){
-                        removeTriples.add(createTriple(getID(), HasLongitude_URI, val, "uri", "literal"));
-                    }
-        	    _HasLongitude_new = null;
-                }
-        //-----------------------
-                if (_HasLatitude_new != null) {
-                    // получаем старые значения
-                    ArrayList<String> oldVals = getInTriples(HasLatitude_URI);
-                    Iterator<String> itrNew = _HasLatitude_new.iterator();
-                    while (itrNew.hasNext()) {
-                        String curNew = itrNew.next();
-                        // ищем старое значение
-                        Iterator<String> itrOld = oldVals.iterator();
-                        while(itrOld.hasNext()) {
-                            String curOld = itrOld.next();
-                            if (curNew.equals(curOld)) {
-                                itrNew.remove();
-                                itrOld.remove();
-                                break;
+                            for(String val : oldVals){
+                                removeTriples.add(createTriple(getID(), IsWest_URI, val, "uri", "literal"));
                             }
+                	    _IsWest_new = null;
                         }
-                    }
-                    for(String val : _HasLatitude_new) {
-                        newTriples.add(createTriple(getID(), HasLatitude_URI, val, "uri", "literal"));
-                    }
-                    for(String val : oldVals){
-                        removeTriples.add(createTriple(getID(), HasLatitude_URI, val, "uri", "literal"));
-                    }
-        	    _HasLatitude_new = null;
-                }
-        //-----------------------
+                //-----------------------
+                        if (_IsNorth_new != null) {
+                            // получаем старые значения
+                            ArrayList<String> oldVals = getInTriples(IsNorth_URI);
+                            Iterator<String> itrNew = _IsNorth_new.iterator();
+                            while (itrNew.hasNext()) {
+                                String curNew = itrNew.next();
+                                // ищем старое значение
+                                Iterator<String> itrOld = oldVals.iterator();
+                                while(itrOld.hasNext()) {
+                                    String curOld = itrOld.next();
+                                    if (curNew.equals(curOld)) {
+                                        itrNew.remove();
+                                        itrOld.remove();
+                                        break;
+                                    }
+                                }
+                            }
+                            for(String val : _IsNorth_new) {
+                                newTriples.add(createTriple(getID(), IsNorth_URI, val, "uri", "literal"));
+                            }
+                            for(String val : oldVals){
+                                removeTriples.add(createTriple(getID(), IsNorth_URI, val, "uri", "literal"));
+                            }
+                	    _IsNorth_new = null;
+                        }
+                //-----------------------
+                        if (_HasLongitude_new != null) {
+                            // получаем старые значения
+                            ArrayList<String> oldVals = getInTriples(HasLongitude_URI);
+                            Iterator<String> itrNew = _HasLongitude_new.iterator();
+                            while (itrNew.hasNext()) {
+                                String curNew = itrNew.next();
+                                // ищем старое значение
+                                Iterator<String> itrOld = oldVals.iterator();
+                                while(itrOld.hasNext()) {
+                                    String curOld = itrOld.next();
+                                    if (curNew.equals(curOld)) {
+                                        itrNew.remove();
+                                        itrOld.remove();
+                                        break;
+                                    }
+                                }
+                            }
+                            for(String val : _HasLongitude_new) {
+                                newTriples.add(createTriple(getID(), HasLongitude_URI, val, "uri", "literal"));
+                            }
+                            for(String val : oldVals){
+                                removeTriples.add(createTriple(getID(), HasLongitude_URI, val, "uri", "literal"));
+                            }
+                	    _HasLongitude_new = null;
+                        }
+                //-----------------------
+                        if (_HasLatitude_new != null) {
+                            // получаем старые значения
+                            ArrayList<String> oldVals = getInTriples(HasLatitude_URI);
+                            Iterator<String> itrNew = _HasLatitude_new.iterator();
+                            while (itrNew.hasNext()) {
+                                String curNew = itrNew.next();
+                                // ищем старое значение
+                                Iterator<String> itrOld = oldVals.iterator();
+                                while(itrOld.hasNext()) {
+                                    String curOld = itrOld.next();
+                                    if (curNew.equals(curOld)) {
+                                        itrNew.remove();
+                                        itrOld.remove();
+                                        break;
+                                    }
+                                }
+                            }
+                            for(String val : _HasLatitude_new) {
+                                newTriples.add(createTriple(getID(), HasLatitude_URI, val, "uri", "literal"));
+                            }
+                            for(String val : oldVals){
+                                removeTriples.add(createTriple(getID(), HasLatitude_URI, val, "uri", "literal"));
+                            }
+                	    _HasLatitude_new = null;
+                        }
+                //-----------------------
 
 
-        SIBResponse ret;
-        ret = SIBFactory.getInstance().getAccessPoint(_accessPointName).insert(newTriples);
-        if (!ret.isConfirmed()) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+                SIBFactory.getInstance().getAccessPoint(_accessPointName).insert(newTriples).addListener(new TaskListener() {
+                    @Override
+                    public void onSuccess(SIBResponse response) {
+                        if (!response.isConfirmed()) {
+                            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                        }
 
-        ret = SIBFactory.getInstance().getAccessPoint(_accessPointName).remove(removeTriples);
-        if (!ret.isConfirmed()) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+                        SIBFactory.getInstance().getAccessPoint(_accessPointName).remove(removeTriples).addListener(new TaskListener() {
+                            @Override
+                            public void onSuccess(SIBResponse response) {
+                                if (!response.isConfirmed()) {
+                                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                                }
+                                task.setSuccess(response);
+                            }
+
+                            @Override
+                            public void onError(Exception ex) {
+                                task.setError(ex);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Exception ex) {
+                        task.setError(ex);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Exception ex) {
+                task.setError(ex);
+            }
+        });
+
+        return task;
     }
 
     @Override
