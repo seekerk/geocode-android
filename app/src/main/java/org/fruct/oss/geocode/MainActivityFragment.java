@@ -66,8 +66,8 @@ public class MainActivityFragment extends Fragment {
 
         for(int i = 0; i < 10; i++) {
             GeoPoint itm = new GeoPoint();
-            itm.hasLatitude(Math.random());
-            itm.hasLongitude(Math.random());
+            itm.setHasLatitude(Math.random());
+            itm.setHasLongitude(Math.random());
             items.add(itm);
         }
     }

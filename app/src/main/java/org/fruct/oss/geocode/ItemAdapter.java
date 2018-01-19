@@ -55,8 +55,8 @@ public class ItemAdapter extends BaseAdapter {
         }
 
         GeoPoint itm = (GeoPoint) getItem(i);
-        ((TextView) view.findViewById(R.id.latitude)).setText(String.format("%1$,.2f", itm.hasLatitude().get(0)));
-        ((TextView) view.findViewById(R.id.longitude)).setText(String.format("%1$,.2f", itm.hasLongitude().get(0)));
+        ((TextView) view.findViewById(R.id.latitude)).setText(String.format("%1$,.2f", itm.getHasLatitude().get(0)));
+        ((TextView) view.findViewById(R.id.longitude)).setText(String.format("%1$,.2f", itm.getHasLongitude().get(0)));
 
         return view;
     }

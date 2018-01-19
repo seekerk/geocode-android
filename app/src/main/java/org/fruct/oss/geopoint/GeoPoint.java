@@ -3,6 +3,7 @@ package org.fruct.oss.geopoint;
 import org.fruct.oss.geopoint.base.BaseRDF;
 import org.fruct.oss.geopoint.base.SIBFactory;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import sofia_kp.KPICore;
@@ -36,166 +37,206 @@ public class GeoPoint extends BaseRDF {
         super(generateID("GeoPoint"), SIBFactory.getInstance().getDefaultAccessPointName());
     }
 
-    //------------ isWest --------------
-        private static final String isWest_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#isWest";
-        private ArrayList<Double> _isWest_new = null;
+    //------------ IsWest --------------
+    private static final String IsWest_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#isWest";
+    private List<String> _IsWest_new = null;
 
-        public ArrayList<Double> isWest() {
-            if (_isWest_new != null) {
-                return _isWest_new;
-            }
-            // search in triple store
-            return getDoubleInTriples(isWest_URI);
+    public List<String> getIsWest() {
+        if (_IsWest_new != null) {
+            return _IsWest_new;
         }
+        // search in triple store
+        return getInTriples(IsWest_URI);
+    }
 
-        public void isWest(Double value) {
-            isWest(value, true);
-        }
+    public <T> void setIsWest(List<T> value) {
+        setIsWest(value, true);
+    }
 
-        public void isWest(ArrayList<Double> value) {
-            isWest(value, true);
+    public <T> void setIsWest(List<T> value, boolean removeOldValues) {
+        if (_IsWest_new == null) {
+            _IsWest_new = getIsWest();
         }
+        if (removeOldValues) {
+            _IsWest_new.clear();
+        }
+        for (T item : value)
+            _IsWest_new.add(item.toString());
+    }
 
-        public void isWest(Double value, boolean removeOldValues) {
-             if (_isWest_new == null) {
-                _isWest_new = isWest();
+            public void setIsWest(Boolean value) {
+                setIsWest(value, true);
             }
-            if (removeOldValues) {
-                _isWest_new.clear();
-            }
-            _isWest_new.add(value);
-        }
 
-        public void isWest(ArrayList<Double> value, boolean removeOldValues) {
-            if (_isWest_new == null) {
-                _isWest_new = isWest();
+            public void setIsWest(Boolean value, boolean removeOldValues) {
+                if (_IsWest_new == null) {
+                    _IsWest_new = getIsWest();
+                }
+                if (removeOldValues) {
+                    _IsWest_new.clear();
+                }
+                _IsWest_new.add(value.toString());
             }
-            if (removeOldValues) {
-                _isWest_new.clear();
-            }
-            _isWest_new.addAll(value);
-        }
-    //============== isWest =============
-    //------------ isNorth --------------
-        private static final String isNorth_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#isNorth";
-        private ArrayList<Double> _isNorth_new = null;
 
-        public ArrayList<Double> isNorth() {
-            if (_isNorth_new != null) {
-                return _isNorth_new;
+            public void setIsWest(Integer value) {
+                setIsWest(value, true);
             }
-            // search in triple store
-            return getDoubleInTriples(isNorth_URI);
-        }
 
-        public void isNorth(Double value) {
-            isNorth(value, true);
-        }
+            public void setIsWest(Integer value, boolean removeOldValues) {
+                if (_IsWest_new == null) {
+                    _IsWest_new = getIsWest();
+                }
+                if (removeOldValues) {
+                    _IsWest_new.clear();
+                }
+                _IsWest_new.add(value.toString());
+            }
 
-        public void isNorth(ArrayList<Double> value) {
-            isNorth(value, true);
-        }
 
-        public void isNorth(Double value, boolean removeOldValues) {
-             if (_isNorth_new == null) {
-                _isNorth_new = isNorth();
-            }
-            if (removeOldValues) {
-                _isNorth_new.clear();
-            }
-            _isNorth_new.add(value);
-        }
+    //============== IsWest =============
+    //------------ IsNorth --------------
+    private static final String IsNorth_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#isNorth";
+    private List<String> _IsNorth_new = null;
 
-        public void isNorth(ArrayList<Double> value, boolean removeOldValues) {
-            if (_isNorth_new == null) {
-                _isNorth_new = isNorth();
-            }
-            if (removeOldValues) {
-                _isNorth_new.clear();
-            }
-            _isNorth_new.addAll(value);
+    public List<String> getIsNorth() {
+        if (_IsNorth_new != null) {
+            return _IsNorth_new;
         }
-    //============== isNorth =============
-    //------------ hasLongitude --------------
-        private static final String hasLongitude_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#hasLongitude";
-        private ArrayList<Double> _hasLongitude_new = null;
+        // search in triple store
+        return getInTriples(IsNorth_URI);
+    }
 
-        public ArrayList<Double> hasLongitude() {
-            if (_hasLongitude_new != null) {
-                return _hasLongitude_new;
-            }
-            // search in triple store
-            return getDoubleInTriples(hasLongitude_URI);
-        }
+    public <T> void setIsNorth(List<T> value) {
+        setIsNorth(value, true);
+    }
 
-        public void hasLongitude(Double value) {
-            hasLongitude(value, true);
+    public <T> void setIsNorth(List<T> value, boolean removeOldValues) {
+        if (_IsNorth_new == null) {
+            _IsNorth_new = getIsNorth();
         }
+        if (removeOldValues) {
+            _IsNorth_new.clear();
+        }
+        for (T item : value)
+            _IsNorth_new.add(item.toString());
+    }
 
-        public void hasLongitude(ArrayList<Double> value) {
-            hasLongitude(value, true);
-        }
+            public void setIsNorth(Boolean value) {
+                setIsNorth(value, true);
+            }
 
-        public void hasLongitude(Double value, boolean removeOldValues) {
-             if (_hasLongitude_new == null) {
-                _hasLongitude_new = hasLongitude();
+            public void setIsNorth(Boolean value, boolean removeOldValues) {
+                if (_IsNorth_new == null) {
+                    _IsNorth_new = getIsNorth();
+                }
+                if (removeOldValues) {
+                    _IsNorth_new.clear();
+                }
+                _IsNorth_new.add(value.toString());
             }
-            if (removeOldValues) {
-                _hasLongitude_new.clear();
-            }
-            _hasLongitude_new.add(value);
-        }
 
-        public void hasLongitude(ArrayList<Double> value, boolean removeOldValues) {
-            if (_hasLongitude_new == null) {
-                _hasLongitude_new = hasLongitude();
+            public void setIsNorth(Integer value) {
+                setIsNorth(value, true);
             }
-            if (removeOldValues) {
-                _hasLongitude_new.clear();
-            }
-            _hasLongitude_new.addAll(value);
-        }
-    //============== hasLongitude =============
-    //------------ hasLatitude --------------
-        private static final String hasLatitude_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#hasLatitude";
-        private ArrayList<Double> _hasLatitude_new = null;
 
-        public ArrayList<Double> hasLatitude() {
-            if (_hasLatitude_new != null) {
-                return _hasLatitude_new;
+            public void setIsNorth(Integer value, boolean removeOldValues) {
+                if (_IsNorth_new == null) {
+                    _IsNorth_new = getIsNorth();
+                }
+                if (removeOldValues) {
+                    _IsNorth_new.clear();
+                }
+                _IsNorth_new.add(value.toString());
             }
-            // search in triple store
-            return getDoubleInTriples(hasLatitude_URI);
-        }
 
-        public void hasLatitude(Double value) {
-            hasLatitude(value, true);
-        }
 
-        public void hasLatitude(ArrayList<Double> value) {
-            hasLatitude(value, true);
-        }
+    //============== IsNorth =============
+    //------------ HasLongitude --------------
+    private static final String HasLongitude_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#hasLongitude";
+    private List<String> _HasLongitude_new = null;
 
-        public void hasLatitude(Double value, boolean removeOldValues) {
-             if (_hasLatitude_new == null) {
-                _hasLatitude_new = hasLatitude();
-            }
-            if (removeOldValues) {
-                _hasLatitude_new.clear();
-            }
-            _hasLatitude_new.add(value);
+    public List<String> getHasLongitude() {
+        if (_HasLongitude_new != null) {
+            return _HasLongitude_new;
         }
+        // search in triple store
+        return getInTriples(HasLongitude_URI);
+    }
 
-        public void hasLatitude(ArrayList<Double> value, boolean removeOldValues) {
-            if (_hasLatitude_new == null) {
-                _hasLatitude_new = hasLatitude();
-            }
-            if (removeOldValues) {
-                _hasLatitude_new.clear();
-            }
-            _hasLatitude_new.addAll(value);
+    public <T> void setHasLongitude(List<T> value) {
+        setHasLongitude(value, true);
+    }
+
+    public <T> void setHasLongitude(List<T> value, boolean removeOldValues) {
+        if (_HasLongitude_new == null) {
+            _HasLongitude_new = getHasLongitude();
         }
-    //============== hasLatitude =============
+        if (removeOldValues) {
+            _HasLongitude_new.clear();
+        }
+        for (T item : value)
+            _HasLongitude_new.add(item.toString());
+    }
+
+            public void setHasLongitude(Double value) {
+                setHasLongitude(value, true);
+            }
+
+            public void setHasLongitude(Double value, boolean removeOldValues) {
+                if (_HasLongitude_new == null) {
+                    _HasLongitude_new = getHasLongitude();
+                }
+                if (removeOldValues) {
+                    _HasLongitude_new.clear();
+                }
+                _HasLongitude_new.add(value.toString());
+            }
+
+
+    //============== HasLongitude =============
+    //------------ HasLatitude --------------
+    private static final String HasLatitude_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#hasLatitude";
+    private List<String> _HasLatitude_new = null;
+
+    public List<String> getHasLatitude() {
+        if (_HasLatitude_new != null) {
+            return _HasLatitude_new;
+        }
+        // search in triple store
+        return getInTriples(HasLatitude_URI);
+    }
+
+    public <T> void setHasLatitude(List<T> value) {
+        setHasLatitude(value, true);
+    }
+
+    public <T> void setHasLatitude(List<T> value, boolean removeOldValues) {
+        if (_HasLatitude_new == null) {
+            _HasLatitude_new = getHasLatitude();
+        }
+        if (removeOldValues) {
+            _HasLatitude_new.clear();
+        }
+        for (T item : value)
+            _HasLatitude_new.add(item.toString());
+    }
+
+            public void setHasLatitude(Double value) {
+                setHasLatitude(value, true);
+            }
+
+            public void setHasLatitude(Double value, boolean removeOldValues) {
+                if (_HasLatitude_new == null) {
+                    _HasLatitude_new = getHasLatitude();
+                }
+                if (removeOldValues) {
+                    _HasLatitude_new.clear();
+                }
+                _HasLatitude_new.add(value.toString());
+            }
+
+
+    //============== HasLatitude =============
 
 
     public void update() {
@@ -209,21 +250,21 @@ public class GeoPoint extends BaseRDF {
         ArrayList<ArrayList<String>> removeTriples = new ArrayList();
 
         // 1. проверяем, новый ли индивид. Если новый, то у него нет триплетов с сиба
-        if (getStringInTriples(RDF_TYPE_URI).isEmpty()) {
+        if (getInTriples(RDF_TYPE_URI).isEmpty()) {
             // Добавляем триплет для класса индивида
             newTriples.add(createTriple(getID(), RDF_TYPE_URI, getURI()));
         }
 
-                if (_isWest_new != null) {
+                if (_IsWest_new != null) {
                     // получаем старые значения
-                    ArrayList<Double> oldVals = getDoubleInTriples(isWest_URI);
-                    Iterator<Double> itrNew = _isWest_new.iterator();
+                    ArrayList<String> oldVals = getInTriples(IsWest_URI);
+                    Iterator<String> itrNew = _IsWest_new.iterator();
                     while (itrNew.hasNext()) {
-                        Double curNew = itrNew.next();
+                        String curNew = itrNew.next();
                         // ищем старое значение
-                        Iterator<Double> itrOld = oldVals.iterator();
+                        Iterator<String> itrOld = oldVals.iterator();
                         while(itrOld.hasNext()) {
-                            Double curOld = itrOld.next();
+                            String curOld = itrOld.next();
                             if (curNew.equals(curOld)) {
                                 itrNew.remove();
                                 itrOld.remove();
@@ -231,25 +272,25 @@ public class GeoPoint extends BaseRDF {
                             }
                         }
                     }
-                    for(Double val : _isWest_new) {
-                        newTriples.add(createTriple(getID(), isWest_URI, val.toString(), "uri", "literal"));
+                    for(String val : _IsWest_new) {
+                        newTriples.add(createTriple(getID(), IsWest_URI, val, "uri", "literal"));
                     }
-                    for(Double val : oldVals){
-                        removeTriples.add(createTriple(getID(), isWest_URI, val.toString(), "uri", "literal"));
+                    for(String val : oldVals){
+                        removeTriples.add(createTriple(getID(), IsWest_URI, val, "uri", "literal"));
                     }
-        	    _isWest_new = null;
+        	    _IsWest_new = null;
                 }
         //-----------------------
-                if (_isNorth_new != null) {
+                if (_IsNorth_new != null) {
                     // получаем старые значения
-                    ArrayList<Double> oldVals = getDoubleInTriples(isNorth_URI);
-                    Iterator<Double> itrNew = _isNorth_new.iterator();
+                    ArrayList<String> oldVals = getInTriples(IsNorth_URI);
+                    Iterator<String> itrNew = _IsNorth_new.iterator();
                     while (itrNew.hasNext()) {
-                        Double curNew = itrNew.next();
+                        String curNew = itrNew.next();
                         // ищем старое значение
-                        Iterator<Double> itrOld = oldVals.iterator();
+                        Iterator<String> itrOld = oldVals.iterator();
                         while(itrOld.hasNext()) {
-                            Double curOld = itrOld.next();
+                            String curOld = itrOld.next();
                             if (curNew.equals(curOld)) {
                                 itrNew.remove();
                                 itrOld.remove();
@@ -257,25 +298,25 @@ public class GeoPoint extends BaseRDF {
                             }
                         }
                     }
-                    for(Double val : _isNorth_new) {
-                        newTriples.add(createTriple(getID(), isNorth_URI, val.toString(), "uri", "literal"));
+                    for(String val : _IsNorth_new) {
+                        newTriples.add(createTriple(getID(), IsNorth_URI, val, "uri", "literal"));
                     }
-                    for(Double val : oldVals){
-                        removeTriples.add(createTriple(getID(), isNorth_URI, val.toString(), "uri", "literal"));
+                    for(String val : oldVals){
+                        removeTriples.add(createTriple(getID(), IsNorth_URI, val, "uri", "literal"));
                     }
-        	    _isNorth_new = null;
+        	    _IsNorth_new = null;
                 }
         //-----------------------
-                if (_hasLongitude_new != null) {
+                if (_HasLongitude_new != null) {
                     // получаем старые значения
-                    ArrayList<Double> oldVals = getDoubleInTriples(hasLongitude_URI);
-                    Iterator<Double> itrNew = _hasLongitude_new.iterator();
+                    ArrayList<String> oldVals = getInTriples(HasLongitude_URI);
+                    Iterator<String> itrNew = _HasLongitude_new.iterator();
                     while (itrNew.hasNext()) {
-                        Double curNew = itrNew.next();
+                        String curNew = itrNew.next();
                         // ищем старое значение
-                        Iterator<Double> itrOld = oldVals.iterator();
+                        Iterator<String> itrOld = oldVals.iterator();
                         while(itrOld.hasNext()) {
-                            Double curOld = itrOld.next();
+                            String curOld = itrOld.next();
                             if (curNew.equals(curOld)) {
                                 itrNew.remove();
                                 itrOld.remove();
@@ -283,25 +324,25 @@ public class GeoPoint extends BaseRDF {
                             }
                         }
                     }
-                    for(Double val : _hasLongitude_new) {
-                        newTriples.add(createTriple(getID(), hasLongitude_URI, val.toString(), "uri", "literal"));
+                    for(String val : _HasLongitude_new) {
+                        newTriples.add(createTriple(getID(), HasLongitude_URI, val, "uri", "literal"));
                     }
-                    for(Double val : oldVals){
-                        removeTriples.add(createTriple(getID(), hasLongitude_URI, val.toString(), "uri", "literal"));
+                    for(String val : oldVals){
+                        removeTriples.add(createTriple(getID(), HasLongitude_URI, val, "uri", "literal"));
                     }
-        	    _hasLongitude_new = null;
+        	    _HasLongitude_new = null;
                 }
         //-----------------------
-                if (_hasLatitude_new != null) {
+                if (_HasLatitude_new != null) {
                     // получаем старые значения
-                    ArrayList<Double> oldVals = getDoubleInTriples(hasLatitude_URI);
-                    Iterator<Double> itrNew = _hasLatitude_new.iterator();
+                    ArrayList<String> oldVals = getInTriples(HasLatitude_URI);
+                    Iterator<String> itrNew = _HasLatitude_new.iterator();
                     while (itrNew.hasNext()) {
-                        Double curNew = itrNew.next();
+                        String curNew = itrNew.next();
                         // ищем старое значение
-                        Iterator<Double> itrOld = oldVals.iterator();
+                        Iterator<String> itrOld = oldVals.iterator();
                         while(itrOld.hasNext()) {
-                            Double curOld = itrOld.next();
+                            String curOld = itrOld.next();
                             if (curNew.equals(curOld)) {
                                 itrNew.remove();
                                 itrOld.remove();
@@ -309,13 +350,13 @@ public class GeoPoint extends BaseRDF {
                             }
                         }
                     }
-                    for(Double val : _hasLatitude_new) {
-                        newTriples.add(createTriple(getID(), hasLatitude_URI, val.toString(), "uri", "literal"));
+                    for(String val : _HasLatitude_new) {
+                        newTriples.add(createTriple(getID(), HasLatitude_URI, val, "uri", "literal"));
                     }
-                    for(Double val : oldVals){
-                        removeTriples.add(createTriple(getID(), hasLatitude_URI, val.toString(), "uri", "literal"));
+                    for(String val : oldVals){
+                        removeTriples.add(createTriple(getID(), HasLatitude_URI, val, "uri", "literal"));
                     }
-        	    _hasLatitude_new = null;
+        	    _HasLatitude_new = null;
                 }
         //-----------------------
 
