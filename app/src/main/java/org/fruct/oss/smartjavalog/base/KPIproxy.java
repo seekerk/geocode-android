@@ -1,4 +1,4 @@
-package org.fruct.oss.geopoint.base;
+package org.fruct.oss.smartjavalog.base;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -39,14 +39,21 @@ public class KPIproxy {
         return task;
     }
 
-    public void disconnect() {
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public LeaveTask disconnect() {
         LeaveTask task = new LeaveTask(this);
         task.execute();
+
+        return task;
     }
 
     public JoinTask connect() {
         JoinTask task = new JoinTask(this);
         task.execute();
+
         return task;
     }
 
@@ -72,6 +79,30 @@ public class KPIproxy {
         }
 
         return task;
+    }
+
+    public SubscribeTask subscribe(String classURI) {
+        SubscribeTask task = new SubscribeTask(this);
+        if (!isConnected)
+            task.setError(new IllegalStateException("Not connected to SIB"));
+        else {
+            task.setClassUri(classURI);
+            task.execute();
+        }
+
+        return task;
+    }
+
+    public static class SubscribeTask extends SIBAsyncTask {
+        private String classURI = null;
+        public SubscribeTask(KPIproxy kpIproxy) { super(kpIproxy);}
+
+        public void setClassUri(String classURI) { this.classURI = classURI; }
+
+        @Override
+        protected void doInBackground() {
+            //this.response = proxy.core.subscribe();
+        }
     }
 
     public static class QueryRDFTask extends SIBAsyncTask {
@@ -150,7 +181,7 @@ public class KPIproxy {
     /**
      * Async leave
      */
-    private static class LeaveTask extends SIBAsyncTask {
+    public static class LeaveTask extends SIBAsyncTask {
 
         LeaveTask(KPIproxy proxy) {
             super(proxy);

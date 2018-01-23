@@ -1,4 +1,4 @@
-package org.fruct.oss.geopoint.base;
+package org.fruct.oss.smartjavalog.base;
 
 import android.os.AsyncTask;
 
@@ -31,12 +31,6 @@ public abstract class BaseRDF {
     public String getID() {
         return _id;
     }
-
-    /**
-     * Получение URI класса для идентификации
-     * @return URI
-     */
-    public abstract String getURI();
 
     public abstract InteractionSIBTask update();
 

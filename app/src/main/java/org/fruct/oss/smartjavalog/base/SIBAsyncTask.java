@@ -1,4 +1,4 @@
-package org.fruct.oss.geopoint.base;
+package org.fruct.oss.smartjavalog.base;
 
 import android.os.AsyncTask;
 

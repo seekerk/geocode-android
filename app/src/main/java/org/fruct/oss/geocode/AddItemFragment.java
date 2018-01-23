@@ -15,7 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.fruct.oss.geopoint.GeoPoint;
-import org.fruct.oss.geopoint.base.TaskListener;
+import org.fruct.oss.smartjavalog.base.TaskListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

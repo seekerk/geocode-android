@@ -14,9 +14,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.fruct.oss.geopoint.GeoPoint;
-import org.fruct.oss.geopoint.base.KPIproxy;
-import org.fruct.oss.geopoint.base.SIBFactory;
-import org.fruct.oss.geopoint.base.TaskListener;
+import org.fruct.oss.smartjavalog.base.KPIproxy;
+import org.fruct.oss.smartjavalog.base.SIBFactory;
+import org.fruct.oss.smartjavalog.base.TaskListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,19 +87,42 @@ public class MainActivityFragment extends Fragment {
                 //TODO: подписка на тройки, загрузка данных в список
                 //TODO: продумать отключение от сиба и переконнект?
                 KPIproxy core = SIBFactory.getInstance().getAccessPoint();
-                core.setAddr(tbHost.getText().toString(), Integer.parseInt(tbPort.getText().toString()));
-                core.connect().addListener(new TaskListener() {
-                    public void onSuccess(SIBResponse resp) {
-                        Toast.makeText(getContext(), "Connection was successful!", Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "SUCCESS");
-                    }
+                if (core.isConnected()) {
+                    // disconnect
+                    core.disconnect().addListener(new TaskListener() {
+                        @Override
+                        public void onSuccess(SIBResponse response) {
+                            Toast.makeText(getContext(), "Disconnected", Toast.LENGTH_LONG).show();
+                            btnOk.setText("CONNECT");
+                            btnOk.setEnabled(true);
+                        }
 
-                    public void onError(Throwable ex) {
-                        Toast.makeText(getContext(), "Error: " + ex.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "ERROR");
-                    }
-                });
-                Log.d(TAG, "Main thread: " + Thread.currentThread().getName());
+                        @Override
+                        public void onError(Exception ex) {
+                            btnOk.setEnabled(true);
+                        }
+                    });
+                } else {
+                    btnOk.setEnabled(false);
+                    // connect
+                    core.setAddr(tbHost.getText().toString(), Integer.parseInt(tbPort.getText().toString()));
+                    core.connect().addListener(new TaskListener() {
+                        public void onSuccess(SIBResponse resp) {
+                            Toast.makeText(getContext(), "Connection was successful!", Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "SUCCESS");
+                            btnOk.setText("DISCONNECT");
+                            btnOk.setEnabled(true);
+                            core.subscribe(GeoPoint.getClassUri());
+                        }
+
+                        public void onError(Throwable ex) {
+                            Toast.makeText(getContext(), "Error: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "ERROR");
+                            btnOk.setEnabled(true);
+                        }
+                    });
+                    Log.d(TAG, "Main thread: " + Thread.currentThread().getName());
+                }
             }
         });
 

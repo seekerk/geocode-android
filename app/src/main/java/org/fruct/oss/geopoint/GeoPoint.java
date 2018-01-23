@@ -1,13 +1,12 @@
 package org.fruct.oss.geopoint;
 
-import org.fruct.oss.geopoint.base.BaseRDF;
-import org.fruct.oss.geopoint.base.SIBFactory;
-import org.fruct.oss.geopoint.base.TaskListener;
+import org.fruct.oss.smartjavalog.base.BaseRDF;
+import org.fruct.oss.smartjavalog.base.SIBFactory;
+import org.fruct.oss.smartjavalog.base.TaskListener;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
-import sofia_kp.KPICore;
 import sofia_kp.SIBResponse;
 
 /**
@@ -37,6 +36,12 @@ public class GeoPoint extends BaseRDF {
     public GeoPoint() {
         super(generateID("GeoPoint"), SIBFactory.getInstance().getDefaultAccessPointName());
     }
+
+    /**
+     * Return class URI from ontology model
+     * @return String with class URI
+     */
+    public static String getClassUri() { return CLASS_URI; }
 
     //------------ IsWest --------------
     private static final String IsWest_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#isWest";
@@ -256,7 +261,7 @@ public class GeoPoint extends BaseRDF {
                 // 1. проверяем, новый ли индивид. Если новый, то у него нет триплетов с сиба
                 if (getInTriples(RDF_TYPE_URI).isEmpty()) {
                     // Добавляем триплет для класса индивида
-                    newTriples.add(createTriple(getID(), RDF_TYPE_URI, getURI()));
+                    newTriples.add(createTriple(getID(), RDF_TYPE_URI, getClassUri()));
                 }
 
                         if (_IsWest_new != null) {
@@ -402,11 +407,6 @@ public class GeoPoint extends BaseRDF {
         });
 
         return task;
-    }
-
-    @Override
-    public String getURI() {
-        return CLASS_URI;
     }
 
     @Override
