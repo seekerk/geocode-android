@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="OK" />
+                android:text="CONNECT" />
         </LinearLayout>
         <ListView android:id="@+id/dataItems"
             android:layout_width="match_parent"
