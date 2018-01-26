@@ -2,6 +2,7 @@ package org.fruct.oss.geopoint;
 
 import org.fruct.oss.smartjavalog.base.BaseRDF;
 import org.fruct.oss.smartjavalog.base.SIBFactory;
+import org.fruct.oss.smartjavalog.base.SubscribeQuery;
 import org.fruct.oss.smartjavalog.base.TaskListener;
 
 import java.util.List;
@@ -17,6 +18,42 @@ import static org.fruct.oss.smartjavalog.base.KPIproxy.RDF_TYPE_URI;
 public class GeoPoint extends BaseRDF {
 
     private static final String CLASS_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#GeoPoint";
+
+    private static boolean classLoader = classLoader();
+
+    private static boolean classLoader() {
+        BaseRDF.registerInstance(CLASS_URI, new BaseRDFChildInstance() {
+            @Override
+            public BaseRDF getInstance(String objectId) {
+                return GeoPoint.getInstance(objectId, SIBFactory.getInstance().getDefaultAccessPointName());
+            }
+
+            @Override
+            public BaseRDF getInstance() {
+                return GeoPoint.getInstance();
+            }
+        });
+
+        return true;
+    }
+
+    public static GeoPoint getInstance(String objectId, String accessPointName) {
+        GeoPoint ret = (GeoPoint) SubscribeQuery.getInstance().getKnownObject(objectId);
+
+        if (ret == null) {
+            ret = new GeoPoint(objectId, accessPointName);
+            SubscribeQuery.getInstance().registerObject(ret);
+        }
+
+        return ret;
+    }
+
+    public static GeoPoint getInstance() {
+        GeoPoint ret = new GeoPoint();
+        SubscribeQuery.getInstance().registerObject(ret);
+
+        return ret;
+    }
 
     /**
      * Creates new class entity

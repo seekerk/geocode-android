@@ -79,12 +79,12 @@ public class MainActivityFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         //TODO: загрузка данных сервера с преференсов
-        tbHost.setText("smartroom.cs.petrsu.ru");
-        tbPort.setText(String.valueOf(10010));
+        tbHost.setText("etourism.cs.petrsu.ru");
+        tbPort.setText(String.valueOf(20203));
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: подписка на тройки, загрузка данных в список
+                //TODO: загрузка данных в список
                 //TODO: продумать отключение от сиба и переконнект?
                 KPIproxy core = SIBFactory.getInstance().getAccessPoint();
                 if (core.isConnected()) {
@@ -112,7 +112,6 @@ public class MainActivityFragment extends Fragment {
                             Log.d(TAG, "SUCCESS");
                             btnOk.setText("DISCONNECT");
                             btnOk.setEnabled(true);
-                            core.subscribe(GeoPoint.getClassUri());
                         }
 
                         public void onError(Throwable ex) {

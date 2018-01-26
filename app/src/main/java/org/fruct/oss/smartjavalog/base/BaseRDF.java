@@ -1,12 +1,8 @@
 package org.fruct.oss.smartjavalog.base;
 
-import android.os.AsyncTask;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import sofia_kp.KPICore;
 import sofia_kp.SIBResponse;
+
+import java.util.*;
 
 import static org.fruct.oss.smartjavalog.base.KPIproxy.SIB_ANY;
 
@@ -20,7 +16,19 @@ public abstract class BaseRDF {
     // загруженные триплеты
     private final ArrayList<ArrayList<String>> triples = new ArrayList<>();
 
-    public BaseRDF(String objectID, String accessPointName) {
+    private static Map<String, BaseRDFChildInstance> registeredInstances = new HashMap<>();
+
+    public static void registerInstance(String classUri, BaseRDFChildInstance handler) {
+        registeredInstances.put(classUri, handler);
+    }
+
+    public static BaseRDF getInstance(String classUri, String objectId) {
+        if (objectId != null)
+            return registeredInstances.get(classUri).getInstance(objectId);
+        return registeredInstances.get(classUri).getInstance();
+    }
+
+    protected BaseRDF(String objectID, String accessPointName) {
         _accessPointName = accessPointName;
         _id = objectID;
     }
@@ -61,6 +69,21 @@ public abstract class BaseRDF {
             }
         }
         return ret;
+    }
+
+    void addTriple(List<String> triple) {
+        this.triples.add(new ArrayList<>(triple));
+        //TODO: notify object listeners
+    }
+
+    void removeTriple(List<String> triple) {
+        for (ArrayList<String> oldTriple : this.triples) {
+            if (oldTriple.containsAll(triple)) {
+                this.triples.remove(oldTriple);
+                //TODO: notify object listeners
+                return;
+            }
+        }
     }
 
     /**
@@ -146,5 +169,21 @@ public abstract class BaseRDF {
                 listener.onSuccess(response);
             }
         }
+    }
+
+    /**
+     * Provides interface for instance creation of child classes.
+     */
+    public interface BaseRDFChildInstance {
+        /**
+         * Get instance of child class with defined ID.
+         * @param objectId id
+         */
+        BaseRDF getInstance(String objectId);
+
+        /**
+         * Get new instance of child class.
+         */
+        BaseRDF getInstance();
     }
 }
