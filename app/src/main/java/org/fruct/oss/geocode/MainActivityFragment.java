@@ -17,6 +17,7 @@ import android.widget.Toast;
 import org.fruct.oss.geopoint.GeoPoint;
 import org.fruct.oss.smartjavalog.base.BaseRDF;
 import org.fruct.oss.smartjavalog.base.KPIproxy;
+import org.fruct.oss.smartjavalog.base.QueryListener;
 import org.fruct.oss.smartjavalog.base.SIBFactory;
 import org.fruct.oss.smartjavalog.base.SubscribeListener;
 import org.fruct.oss.smartjavalog.base.SubscribeQuery;
@@ -125,6 +126,8 @@ public class MainActivityFragment extends Fragment {
                             log.info("SUCCESS CONNECTION");
                             btnOk.setText("DISCONNECT");
                             btnOk.setEnabled(true);
+
+                            // subscribe to geopoint instances
                             SubscribeQuery.getInstance().addSubscription(GeoPoint.getClassUri(), new SubscribeListener() {
                                 @Override
                                 public void addItem(BaseRDF item) {
@@ -151,6 +154,25 @@ public class MainActivityFragment extends Fragment {
                                             return;
                                         }
                                     }
+                                }
+
+                                @Override
+                                public void onError(Exception ex) {
+                                    Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                            //download already known instances
+                            SIBFactory.getInstance().getAccessPoint().queryClass(GeoPoint.getClassUri()).addListener(new QueryListener() {
+                                @Override
+                                public void addItem(BaseRDF item) {
+                                    for (GeoPoint pt: items) {
+                                        if (pt.getID().equals(item.getID()))
+                                            return;
+                                    }
+
+                                    items.add((GeoPoint) item);
+                                    lvItems.post(updateAdapter);
                                 }
 
                                 @Override

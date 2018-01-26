@@ -287,7 +287,7 @@ public class GeoPoint extends BaseRDF {
     public InteractionSIBTask update() {
         final InteractionSIBTask task = new InteractionSIBTask();
         // update triple store
-        load().addListener(new TaskListener() {
+        download().addListener(new TaskListener() {
             @Override
             public void onSuccess(SIBResponse response) {
 

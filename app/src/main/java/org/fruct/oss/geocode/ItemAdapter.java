@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.fruct.oss.geopoint.GeoPoint;
+import org.fruct.oss.smartjavalog.base.UpdateListener;
 
 import java.util.List;
 
@@ -58,9 +60,22 @@ public class ItemAdapter extends BaseAdapter {
         }
 
         GeoPoint itm = (GeoPoint) getItem(i);
-        Log.d(TAG, "Point latitude: \"" + itm.getHasLatitude().get(0) + "\"");
-        ((TextView) view.findViewById(R.id.latitude)).setText(String.format("%1$,.6f", Double.valueOf(itm.getHasLatitude().get(0))));
-        ((TextView) view.findViewById(R.id.longitude)).setText(String.format("%1$,.6f", Double.valueOf(itm.getHasLongitude().get(0))));
+        View finalView = view;
+        itm.addListener(new UpdateListener() {
+            @Override
+            public void onUpdate() {
+                Log.d(TAG, "Point latitude: \"" + itm.getHasLatitude().iterator().next() + "\"");
+                ((TextView) finalView.findViewById(R.id.latitude)).setText(String.format("%1$,.6f", Double.valueOf(itm.getHasLatitude().iterator().next())));
+                ((TextView) finalView.findViewById(R.id.longitude)).setText(String.format("%1$,.6f", Double.valueOf(itm.getHasLongitude().iterator().next())));
+            }
+
+            @Override
+            public void onError(Exception ex) {
+                Toast.makeText(finalView.getContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+        if (!itm.isDownloaded())
+            itm.download();
 
         return view;
     }
