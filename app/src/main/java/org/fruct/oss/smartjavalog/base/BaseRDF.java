@@ -3,10 +3,14 @@ package org.fruct.oss.smartjavalog.base;
 import sofia_kp.SIBResponse;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 import static org.fruct.oss.smartjavalog.base.KPIproxy.SIB_ANY;
 
-public abstract class BaseRDF {
+public abstract class BaseRDF implements UpdateListener {
+    private static Logger log = Logger.getLogger(BaseRDF.class.getName());
+
+    protected static long NOTIFICATION_TIMEOUT = 10 * 60 * 1000L;
 
     protected String _accessPointName;
     private final String _id;
@@ -15,7 +19,9 @@ public abstract class BaseRDF {
 
     private InteractionSIBTask loadTask = null;
 
-    private boolean isDownloaded = false;
+    protected boolean isDownloaded = false;
+
+    protected boolean isNew = false;
 
     private List<UpdateListener> listeners = new ArrayList<>();
 
@@ -24,8 +30,11 @@ public abstract class BaseRDF {
 
     private static Map<String, BaseRDFChildInstance> registeredInstances = new HashMap<>();
 
-    public static void registerInstance(String classUri, BaseRDFChildInstance handler) {
+    private static Map<String, BaseRDFChildInstance> registeredNotifications = new HashMap<>();
+
+    public static void registerInstance(String classUri, String notificationUri, BaseRDFChildInstance handler) {
         registeredInstances.put(classUri, handler);
+        registeredNotifications.put(notificationUri, handler);
     }
 
     public static BaseRDF getInstance(String classUri, String objectId) {
@@ -34,8 +43,21 @@ public abstract class BaseRDF {
         return registeredInstances.get(classUri).getInstance();
     }
 
+    public static BaseRDFChildInstance getNotificatedInstance(String notificationUri) {
+        log.info("Search uri=" + notificationUri + " in notifications");
+        if (registeredNotifications.containsKey(notificationUri)) {
+            return registeredNotifications.get(notificationUri);
+        }
+        log.info("Notification not found; known keys: " + registeredNotifications.keySet());
+        return null;
+    }
+
     public void addListener(UpdateListener listener) {
-        this.listeners.add(listener);
+        if (!this.listeners.contains(listener))
+            this.listeners.add(listener);
+        else
+            return;
+        log.warning("Total count of listeners: " + listeners);
         if (isDownloaded)
             listener.onUpdate();
     }
@@ -64,8 +86,9 @@ public abstract class BaseRDF {
 
     public abstract InteractionSIBTask update();
 
-    public InteractionSIBTask download() {
-        if (loadTask != null)
+    public InteractionSIBTask download(boolean notifyOther) {
+        log.warning("CALL DOWNLOAD for " + getID() + " from " + Thread.currentThread().getStackTrace()[2]);
+        if (loadTask != null && !loadTask.isDone())
             return loadTask;
 
         loadTask = new InteractionSIBTask();
@@ -75,16 +98,16 @@ public abstract class BaseRDF {
                 triples.clear();
                 triples.addAll(response.query_results);
                 loadTask.setSuccess(response);
-                BaseRDF.this.loadTask = null;
                 isDownloaded = true;
-                notifyListeners(null);
+                if (notifyOther)
+                    notifyListeners(null);
             }
 
             @Override
             public void onError(Exception ex) {
                 loadTask.setError(ex);
-                BaseRDF.this.loadTask = null;
-                notifyListeners(ex);
+                if (notifyOther)
+                    notifyListeners(ex);
             }
         });
 
@@ -93,8 +116,9 @@ public abstract class BaseRDF {
 
     public ArrayList<String> getInTriples(String searchURI) {
         ArrayList<String> ret = new ArrayList<>();
-        if (this.triples.size() == 0) {
-            download();
+        if (this.triples.size() == 0 && !isNew && !isDownloaded) {
+            log.warning("CALL DOWNLOAD FOR INSTANCE " + getID() + ": isNew=" + isNew + "; isDownloaded=" + isDownloaded);
+            download(true);
         }
         for (ArrayList<String> t : this.triples) {
             if (t.contains(searchURI)) {
@@ -106,6 +130,7 @@ public abstract class BaseRDF {
 
     void addTriple(List<String> triple) {
         this.triples.add(new ArrayList<>(triple));
+        isNew = false;
         notifyListeners(null);
     }
 
@@ -143,6 +168,10 @@ public abstract class BaseRDF {
         return createTriple(object, predicate, subject, "uri", "uri");
     }
 
+    public static ArrayList<String> createTriple(String object, String predicate, Long subject) {
+        return createTriple(object, predicate, String.valueOf(subject), "uri", "literal");
+    }
+
     /**
      * Создание триплета (объект->предикат->субъект)
      * @param object объект (uri)
@@ -163,8 +192,19 @@ public abstract class BaseRDF {
     }
 
     public boolean isDownloaded() {
-        return isDownloaded;
+        return isDownloaded || isNew;
     }
+
+    @Override
+    public void onUpdate() {
+        notifyListeners(null);
+    }
+
+    @Override
+    public void onError(Exception ex) {
+        notifyListeners(ex);
+    }
+
 
     public static class InteractionSIBTask {
 
@@ -173,6 +213,20 @@ public abstract class BaseRDF {
         protected SIBResponse response = null;
 
         protected List<TaskListener> listeners = new ArrayList<>();
+
+        private boolean isDone = false;
+
+        public boolean isDone() {
+            synchronized (this) {
+                return isDone;
+            }
+        }
+
+        private void setDone(boolean isDone) {
+            synchronized (this) {
+                this.isDone = isDone;
+            }
+        }
 
         public void addListener(TaskListener taskListener) {
             listeners.add(taskListener);
@@ -196,6 +250,7 @@ public abstract class BaseRDF {
         }
 
         protected void onPostExecute() {
+            setDone(true);
             if (ex != null) {
                 for (TaskListener listener : listeners) {
                     listener.onError(ex);

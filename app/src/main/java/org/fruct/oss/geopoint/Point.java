@@ -5,51 +5,53 @@ import org.fruct.oss.smartjavalog.base.SIBFactory;
 import org.fruct.oss.smartjavalog.base.SubscribeQuery;
 import org.fruct.oss.smartjavalog.base.TaskListener;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
+
 import sofia_kp.SIBResponse;
 
+import static org.fruct.oss.smartjavalog.base.KPIproxy.NOTIFICATION_INDIVIDE;
+import static org.fruct.oss.smartjavalog.base.KPIproxy.NOTIFICATION_UPDATE_TIME;
 import static org.fruct.oss.smartjavalog.base.KPIproxy.RDF_TYPE_URI;
 
 /**
  * null
  */
-public class GeoPoint extends BaseRDF {
+public class Point extends BaseRDF {
 
-    private static final String CLASS_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#GeoPoint";
+    private static final String CLASS_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#Point";
+    private static final String NOTIFICATION_URI = "http://oss.fruct.org/smartjavalog#org.fruct.oss.geopoint/Point/Notification";
 
     private static boolean classLoader = classLoader();
 
     private static boolean classLoader() {
-        BaseRDF.registerInstance(CLASS_URI, new BaseRDFChildInstance() {
+        BaseRDF.registerInstance(CLASS_URI, NOTIFICATION_URI, new BaseRDFChildInstance() {
             @Override
             public BaseRDF getInstance(String objectId) {
-                return GeoPoint.getInstance(objectId, SIBFactory.getInstance().getDefaultAccessPointName());
+                return Point.getInstance(objectId, SIBFactory.getInstance().getDefaultAccessPointName());
             }
 
             @Override
             public BaseRDF getInstance() {
-                return GeoPoint.getInstance();
+                return Point.getInstance();
             }
         });
 
         return true;
     }
 
-    public static GeoPoint getInstance(String objectId, String accessPointName) {
-        GeoPoint ret = (GeoPoint) SubscribeQuery.getInstance().getKnownObject(objectId);
+    public static Point getInstance(String objectId, String accessPointName) {
+        Point ret = (Point) SubscribeQuery.getInstance().getKnownObject(objectId);
 
         if (ret == null) {
-            ret = new GeoPoint(objectId, accessPointName);
+            ret = new Point(objectId, accessPointName);
             SubscribeQuery.getInstance().registerObject(ret);
         }
 
         return ret;
     }
 
-    public static GeoPoint getInstance() {
-        GeoPoint ret = new GeoPoint();
+    public static Point getInstance() {
+        Point ret = new Point();
         SubscribeQuery.getInstance().registerObject(ret);
 
         return ret;
@@ -60,7 +62,7 @@ public class GeoPoint extends BaseRDF {
      * @param objectID class entity id
      * @param accessPointName the name of used access point
      */
-    public GeoPoint(String objectID, String accessPointName) {
+    protected Point(String objectID, String accessPointName) {
         super(objectID, accessPointName);
     }
 
@@ -68,12 +70,14 @@ public class GeoPoint extends BaseRDF {
      * Creates new class entity
      * @param accessPointName  the name of used access point
      */
-    public GeoPoint(String accessPointName) {
-        super(generateID("GeoPoint"), accessPointName);
+    protected Point(String accessPointName) {
+        super(generateID("Point"), accessPointName);
+        isNew = true;
     }
 
-    public GeoPoint() {
-        super(generateID("GeoPoint"), SIBFactory.getInstance().getDefaultAccessPointName());
+    protected Point() {
+        super(generateID("Point"), SIBFactory.getInstance().getDefaultAccessPointName());
+        isNew = true;
     }
 
     /**
@@ -82,120 +86,6 @@ public class GeoPoint extends BaseRDF {
      */
     public static String getClassUri() { return CLASS_URI; }
 
-    //------------ IsWest --------------
-    private static final String IsWest_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#isWest";
-    private List<String> _IsWest_new = null;
-
-    public List<String> getIsWest() {
-        if (_IsWest_new != null) {
-            return _IsWest_new;
-        }
-        // search in triple store
-        return getInTriples(IsWest_URI);
-    }
-
-    public <T> void setIsWest(List<T> value) {
-        setIsWest(value, true);
-    }
-
-    public <T> void setIsWest(List<T> value, boolean removeOldValues) {
-        if (_IsWest_new == null) {
-            _IsWest_new = getIsWest();
-        }
-        if (removeOldValues) {
-            _IsWest_new.clear();
-        }
-        for (T item : value)
-            _IsWest_new.add(item.toString());
-    }
-
-            public void setIsWest(Boolean value) {
-                setIsWest(value, true);
-            }
-
-            public void setIsWest(Boolean value, boolean removeOldValues) {
-                if (_IsWest_new == null) {
-                    _IsWest_new = getIsWest();
-                }
-                if (removeOldValues) {
-                    _IsWest_new.clear();
-                }
-                _IsWest_new.add(value.toString());
-            }
-
-            public void setIsWest(Integer value) {
-                setIsWest(value, true);
-            }
-
-            public void setIsWest(Integer value, boolean removeOldValues) {
-                if (_IsWest_new == null) {
-                    _IsWest_new = getIsWest();
-                }
-                if (removeOldValues) {
-                    _IsWest_new.clear();
-                }
-                _IsWest_new.add(value.toString());
-            }
-
-
-    //============== IsWest =============
-    //------------ IsNorth --------------
-    private static final String IsNorth_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#isNorth";
-    private List<String> _IsNorth_new = null;
-
-    public List<String> getIsNorth() {
-        if (_IsNorth_new != null) {
-            return _IsNorth_new;
-        }
-        // search in triple store
-        return getInTriples(IsNorth_URI);
-    }
-
-    public <T> void setIsNorth(List<T> value) {
-        setIsNorth(value, true);
-    }
-
-    public <T> void setIsNorth(List<T> value, boolean removeOldValues) {
-        if (_IsNorth_new == null) {
-            _IsNorth_new = getIsNorth();
-        }
-        if (removeOldValues) {
-            _IsNorth_new.clear();
-        }
-        for (T item : value)
-            _IsNorth_new.add(item.toString());
-    }
-
-            public void setIsNorth(Boolean value) {
-                setIsNorth(value, true);
-            }
-
-            public void setIsNorth(Boolean value, boolean removeOldValues) {
-                if (_IsNorth_new == null) {
-                    _IsNorth_new = getIsNorth();
-                }
-                if (removeOldValues) {
-                    _IsNorth_new.clear();
-                }
-                _IsNorth_new.add(value.toString());
-            }
-
-            public void setIsNorth(Integer value) {
-                setIsNorth(value, true);
-            }
-
-            public void setIsNorth(Integer value, boolean removeOldValues) {
-                if (_IsNorth_new == null) {
-                    _IsNorth_new = getIsNorth();
-                }
-                if (removeOldValues) {
-                    _IsNorth_new.clear();
-                }
-                _IsNorth_new.add(value.toString());
-            }
-
-
-    //============== IsNorth =============
     //------------ HasLongitude --------------
     private static final String HasLongitude_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#hasLongitude";
     private List<String> _HasLongitude_new = null;
@@ -287,74 +177,24 @@ public class GeoPoint extends BaseRDF {
     public InteractionSIBTask update() {
         final InteractionSIBTask task = new InteractionSIBTask();
         // update triple store
-        download().addListener(new TaskListener() {
+        download(false).addListener(new TaskListener() {
             @Override
             public void onSuccess(SIBResponse response) {
 
                 // триплеты для добавления
-                ArrayList<ArrayList<String>> newTriples = new ArrayList();
+                ArrayList<ArrayList<String>> newTriples = new ArrayList<>();
 
                 // триплеты для удаления
-                ArrayList<ArrayList<String>> removeTriples = new ArrayList();
+                ArrayList<ArrayList<String>> removeTriples = new ArrayList<>();
+
+                String notificationId = null;
 
                 // 1. проверяем, новый ли индивид. Если новый, то у него нет триплетов с сиба
-                if (getInTriples(RDF_TYPE_URI).isEmpty()) {
+                if (isNew) {
                     // Добавляем триплет для класса индивида
                     newTriples.add(createTriple(getID(), RDF_TYPE_URI, getClassUri()));
                 }
 
-                        if (_IsWest_new != null) {
-                            // получаем старые значения
-                            ArrayList<String> oldVals = getInTriples(IsWest_URI);
-                            Iterator<String> itrNew = _IsWest_new.iterator();
-                            while (itrNew.hasNext()) {
-                                String curNew = itrNew.next();
-                                // ищем старое значение
-                                Iterator<String> itrOld = oldVals.iterator();
-                                while(itrOld.hasNext()) {
-                                    String curOld = itrOld.next();
-                                    if (curNew.equals(curOld)) {
-                                        itrNew.remove();
-                                        itrOld.remove();
-                                        break;
-                                    }
-                                }
-                            }
-                            for(String val : _IsWest_new) {
-                                newTriples.add(createTriple(getID(), IsWest_URI, val, "uri", "literal"));
-                            }
-                            for(String val : oldVals){
-                                removeTriples.add(createTriple(getID(), IsWest_URI, val, "uri", "literal"));
-                            }
-                	    _IsWest_new = null;
-                        }
-                //-----------------------
-                        if (_IsNorth_new != null) {
-                            // получаем старые значения
-                            ArrayList<String> oldVals = getInTriples(IsNorth_URI);
-                            Iterator<String> itrNew = _IsNorth_new.iterator();
-                            while (itrNew.hasNext()) {
-                                String curNew = itrNew.next();
-                                // ищем старое значение
-                                Iterator<String> itrOld = oldVals.iterator();
-                                while(itrOld.hasNext()) {
-                                    String curOld = itrOld.next();
-                                    if (curNew.equals(curOld)) {
-                                        itrNew.remove();
-                                        itrOld.remove();
-                                        break;
-                                    }
-                                }
-                            }
-                            for(String val : _IsNorth_new) {
-                                newTriples.add(createTriple(getID(), IsNorth_URI, val, "uri", "literal"));
-                            }
-                            for(String val : oldVals){
-                                removeTriples.add(createTriple(getID(), IsNorth_URI, val, "uri", "literal"));
-                            }
-                	    _IsNorth_new = null;
-                        }
-                //-----------------------
                         if (_HasLongitude_new != null) {
                             // получаем старые значения
                             ArrayList<String> oldVals = getInTriples(HasLongitude_URI);
@@ -409,6 +249,16 @@ public class GeoPoint extends BaseRDF {
                 //-----------------------
 
 
+                if (!isNew && (newTriples.size() > 0 || removeTriples.size() > 0)) {
+                    notificationId = generateID("notification");
+                    newTriples.add(BaseRDF.createTriple(notificationId, RDF_TYPE_URI, NOTIFICATION_URI));
+                    newTriples.add(BaseRDF.createTriple(notificationId, NOTIFICATION_INDIVIDE, getID()));
+                    newTriples.add(BaseRDF.createTriple(notificationId, NOTIFICATION_UPDATE_TIME, System.currentTimeMillis() / 1000L));
+                    SubscribeQuery.getInstance().registerNotification(notificationId);
+                }
+
+                String finalNotificationId = notificationId;
+
                 SIBFactory.getInstance().getAccessPoint(_accessPointName).insert(newTriples).addListener(new TaskListener() {
                     @Override
                     public void onSuccess(SIBResponse response) {
@@ -416,20 +266,44 @@ public class GeoPoint extends BaseRDF {
                             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                         }
 
-                        SIBFactory.getInstance().getAccessPoint(_accessPointName).remove(removeTriples).addListener(new TaskListener() {
-                            @Override
-                            public void onSuccess(SIBResponse response) {
-                                if (!response.isConfirmed()) {
-                                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                        if (removeTriples.size() > 0) {
+                            SIBFactory.getInstance().getAccessPoint(_accessPointName).remove(removeTriples).addListener(new TaskListener() {
+                                @Override
+                                public void onSuccess(SIBResponse response) {
+                                    if (!response.isConfirmed()) {
+                                        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                                    }
+                                    task.setSuccess(response);
+                                    isNew = false;
+                                    if (finalNotificationId != null) {
+                                        new Timer().schedule(new TimerTask() {
+                                            @Override
+                                            public void run() {
+                                                SIBFactory.getInstance().getAccessPoint(_accessPointName).removeInstance(finalNotificationId);
+                                                SubscribeQuery.getInstance().removeNotificationRegistration(finalNotificationId);
+                                            }
+                                        }, NOTIFICATION_TIMEOUT);
+                                    }
                                 }
-                                task.setSuccess(response);
-                            }
 
-                            @Override
-                            public void onError(Exception ex) {
-                                task.setError(ex);
+                                @Override
+                                public void onError(Exception ex) {
+                                    task.setError(ex);
+                                }
+                            });
+                        } else {
+                            task.setSuccess(response);
+                            isNew = false;
+                            if (finalNotificationId != null) {
+                                new Timer().schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        SIBFactory.getInstance().getAccessPoint(_accessPointName).removeInstance(finalNotificationId);
+                                        SubscribeQuery.getInstance().removeNotificationRegistration(finalNotificationId);
+                                    }
+                                }, NOTIFICATION_TIMEOUT);
                             }
-                        });
+                        }
                     }
 
                     @Override

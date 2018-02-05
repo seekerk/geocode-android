@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.fruct.oss.geopoint.GeoPoint;
+import org.fruct.oss.geopoint.Place;
 import org.fruct.oss.smartjavalog.base.UpdateListener;
 
 import java.util.List;
@@ -24,11 +24,11 @@ public class ItemAdapter extends BaseAdapter {
     Context ctx;
 
     // спиоск точек
-    List<GeoPoint> items;
+    List<Place> items;
 
     LayoutInflater lInflater;
 
-    ItemAdapter(Context ctx, List<GeoPoint> items) {
+    ItemAdapter(Context ctx, List<Place> items) {
         this.ctx = ctx;
         this.items = items;
 
@@ -59,14 +59,29 @@ public class ItemAdapter extends BaseAdapter {
             view = lInflater.inflate(R.layout.item, parent, false);
         }
 
-        GeoPoint itm = (GeoPoint) getItem(i);
+        Place itm = (Place) getItem(i);
         View finalView = view;
         itm.addListener(new UpdateListener() {
             @Override
             public void onUpdate() {
-                Log.d(TAG, "Point latitude: \"" + itm.getHasLatitude().iterator().next() + "\"");
-                ((TextView) finalView.findViewById(R.id.latitude)).setText(String.format("%1$,.6f", Double.valueOf(itm.getHasLatitude().iterator().next())));
-                ((TextView) finalView.findViewById(R.id.longitude)).setText(String.format("%1$,.6f", Double.valueOf(itm.getHasLongitude().iterator().next())));
+                if (itm.getHasPoint().size() > 0) {
+                    itm.getHasPoint().get(0).addListener(itm);
+                    if (!itm.getHasPoint().get(0).getHasLatitude().isEmpty()) {
+                        Log.d(TAG, "Point latitude: \"" + itm.getHasPoint().get(0).getHasLatitude().get(0) + "\"");
+                        ((TextView) finalView.findViewById(R.id.latitude)).setText(String.format("%1$,.6f", Double.valueOf(itm.getHasPoint().iterator().next().getHasLatitude().iterator().next())));
+                    } else {
+                        ((TextView) finalView.findViewById(R.id.latitude)).setText("n/a");
+                    }
+                    if (!itm.getHasPoint().get(0).getHasLongitude().isEmpty()) {
+                        ((TextView) finalView.findViewById(R.id.longitude)).setText(String.format("%1$,.6f", Double.valueOf(itm.getHasPoint().iterator().next().getHasLongitude().iterator().next())));
+                    } else {
+                        ((TextView) finalView.findViewById(R.id.latitude)).setText("n/a");
+                        ((TextView) finalView.findViewById(R.id.longitude)).setText("n/a");
+                    }
+                } else {
+                    ((TextView) finalView.findViewById(R.id.latitude)).setText("n/a");
+                    ((TextView) finalView.findViewById(R.id.longitude)).setText("n/a");
+                }
             }
 
             @Override
@@ -75,7 +90,7 @@ public class ItemAdapter extends BaseAdapter {
             }
         });
         if (!itm.isDownloaded())
-            itm.download();
+            itm.download(true);
 
         return view;
     }

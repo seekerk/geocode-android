@@ -1,20 +1,17 @@
 package org.fruct.oss.geocode;
 
-import android.app.Activity;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.fruct.oss.geopoint.GeoPoint;
+import org.fruct.oss.geopoint.Place;
 import org.fruct.oss.smartjavalog.base.BaseRDF;
 import org.fruct.oss.smartjavalog.base.KPIproxy;
 import org.fruct.oss.smartjavalog.base.QueryListener;
@@ -26,12 +23,10 @@ import org.fruct.oss.smartjavalog.base.TaskListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import sofia_kp.KPICore;
 import sofia_kp.SIBResponse;
 
 /**
@@ -62,7 +57,7 @@ public class MainActivityFragment extends Fragment {
     ListView lvItems;
 
     ItemAdapter adapter;
-    List<GeoPoint> items = new ArrayList<>();
+    List<Place> items = new ArrayList<>();
 
     public MainActivityFragment() {
     }
@@ -128,24 +123,24 @@ public class MainActivityFragment extends Fragment {
                             btnOk.setEnabled(true);
 
                             // subscribe to geopoint instances
-                            SubscribeQuery.getInstance().addSubscription(GeoPoint.getClassUri(), new SubscribeListener() {
+                            SubscribeQuery.getInstance().addSubscription(Place.getClassUri(), new SubscribeListener<Place>() {
                                 @Override
-                                public void addItem(BaseRDF item) {
-                                    for (GeoPoint pt : items) {
+                                public void addItem(Place item) {
+                                    for (Place pt : items) {
                                         if (pt.getID().equals(item.getID()))
                                             return;
                                     }
                                     log.info(Thread.currentThread().getName() + ": Add point with id=" + item.getID());
-                                    items.add((GeoPoint) item);
+                                    items.add((Place) item);
                                     lvItems.post(updateAdapter);
                                 }
 
                                 @Override
-                                public void removeItem(BaseRDF item) {
-                                    Iterator<GeoPoint> iter = items.iterator();
+                                public void removeItem(Place item) {
+                                    Iterator<Place> iter = items.iterator();
 
                                     while(iter.hasNext()) {
-                                        GeoPoint pt = iter.next();
+                                        Place pt = iter.next();
 
                                         if (pt.getID().equals(item.getID())) {
                                             log.info(Thread.currentThread().getName() + ": Remove point with id=" + item.getID());
@@ -163,15 +158,15 @@ public class MainActivityFragment extends Fragment {
                             });
 
                             //download already known instances
-                            SIBFactory.getInstance().getAccessPoint().queryClass(GeoPoint.getClassUri()).addListener(new QueryListener() {
+                            SIBFactory.getInstance().getAccessPoint().queryClass(Place.getClassUri()).addListener(new QueryListener() {
                                 @Override
                                 public void addItem(BaseRDF item) {
-                                    for (GeoPoint pt: items) {
+                                    for (Place pt: items) {
                                         if (pt.getID().equals(item.getID()))
                                             return;
                                     }
 
-                                    items.add((GeoPoint) item);
+                                    items.add((Place) item);
                                     lvItems.post(updateAdapter);
                                 }
 

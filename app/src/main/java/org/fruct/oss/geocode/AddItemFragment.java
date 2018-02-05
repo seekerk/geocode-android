@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import org.fruct.oss.geopoint.GeoPoint;
+import org.fruct.oss.geopoint.Place;
+import org.fruct.oss.geopoint.Point;
 import org.fruct.oss.smartjavalog.base.TaskListener;
 
 import butterknife.BindView;
@@ -91,48 +91,61 @@ public class AddItemFragment extends Fragment {
                     return;
                 }
 
-                GeoPoint pt = new GeoPoint();
+                Place pl = Place.getInstance();
+                Point pt = Point.getInstance();
+                pl.setHasPoint(pt);
                 pt.setHasLatitude(latitude);
                 pt.setHasLongitude(longitude);
 
                 int verLocation = rbgVertical.getCheckedRadioButtonId();
                 switch (verLocation) {
                     case R.id.rbVertEquator: {
-                        pt.setIsNorth(0);
+                        pl.setIsNorth(0);
                         break;
                     }
                     case R.id.rbVertNorth: {
-                        pt.setIsNorth(true);
+                        pl.setIsNorth(true);
                         break;
                     }
                     case R.id.rbVertSauth: {
-                        pt.setIsNorth(false);
+                        pl.setIsNorth(false);
                         break;
                     }
                 }
                 int horLocation = rbgHorizontal.getCheckedRadioButtonId();
                 switch (horLocation) {
                     case R.id.rbHorMeridian: {
-                        pt.setIsWest(0);
+                        pl.setIsWest(0);
                         break;
                     }
                     case R.id.rbHorEast: {
-                        pt.setIsWest(false);
+                        pl.setIsWest(false);
                         break;
                     }
                     case R.id.rbHorWest: {
-                        pt.setIsWest(true);
+                        pl.setIsWest(true);
                         break;
                     }
                 }
 
-                pt.update().addListener(new TaskListener() {
+                pl.update().addListener(new TaskListener() {
                     @Override
                     public void onSuccess(SIBResponse response) {
-                        Toast.makeText(getContext(), "Point was added successfully", Toast.LENGTH_LONG).show();
-                        FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        getFragmentManager().popBackStack();
-                        ft.commit();
+                        pt.update().addListener(new TaskListener() {
+                            @Override
+                            public void onSuccess(SIBResponse response) {
+                                Toast.makeText(getContext(), "Point was added successfully", Toast.LENGTH_LONG).show();
+                                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                getFragmentManager().popBackStack();
+                                ft.commit();
+                            }
+
+                            @Override
+                            public void onError(Exception ex) {
+                                Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
+                                ex.printStackTrace();
+                            }
+                        });
                     }
 
                     @Override
