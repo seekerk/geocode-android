@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import org.fruct.oss.geopoint.Place;
 import org.fruct.oss.geopoint.Point;
+import org.fruct.oss.geopoint.ternary_value;
 import org.fruct.oss.smartjavalog.base.TaskListener;
 
 import butterknife.BindView;
@@ -100,30 +101,30 @@ public class AddItemFragment extends Fragment {
                 int verLocation = rbgVertical.getCheckedRadioButtonId();
                 switch (verLocation) {
                     case R.id.rbVertEquator: {
-                        pl.setIsNorth(0);
+                        pl.setIsNorth(ternary_value.getInstance(0));
                         break;
                     }
                     case R.id.rbVertNorth: {
-                        pl.setIsNorth(true);
+                        pl.setIsNorth(ternary_value.getInstance(true));
                         break;
                     }
                     case R.id.rbVertSauth: {
-                        pl.setIsNorth(false);
+                        pl.setIsNorth(ternary_value.getInstance(false));
                         break;
                     }
                 }
                 int horLocation = rbgHorizontal.getCheckedRadioButtonId();
                 switch (horLocation) {
                     case R.id.rbHorMeridian: {
-                        pl.setIsWest(0);
+                        pl.setIsWest(ternary_value.getInstance(0));
                         break;
                     }
                     case R.id.rbHorEast: {
-                        pl.setIsWest(false);
+                        pl.setIsWest(ternary_value.getInstance(false));
                         break;
                     }
                     case R.id.rbHorWest: {
-                        pl.setIsWest(true);
+                        pl.setIsWest(ternary_value.getInstance(true));
                         break;
                     }
                 }

@@ -133,6 +133,7 @@ public class MainActivityFragment extends Fragment {
                                     log.info(Thread.currentThread().getName() + ": Add point with id=" + item.getID());
                                     items.add((Place) item);
                                     lvItems.post(updateAdapter);
+                                    Toast.makeText(getContext(), "Add item id=" + item.getID(), Toast.LENGTH_LONG).show();
                                 }
 
                                 @Override

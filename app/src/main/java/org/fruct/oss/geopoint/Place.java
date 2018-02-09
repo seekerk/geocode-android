@@ -87,65 +87,56 @@ public class Place extends BaseRDF {
     public static String getClassUri() { return CLASS_URI; }
 
     //------------ IsWest --------------
-    private static final String IsWest_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#isWest";
-    private List<String> _IsWest_new = null;
+        private static final String IsWest_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#isWest";
+        private ArrayList<ternary_value> _IsWest_new = null;
 
-    public List<String> getIsWest() {
-        if (_IsWest_new != null) {
-            return _IsWest_new;
+
+        public ArrayList<ternary_value> getIsWest() {
+            if (_IsWest_new != null)
+                return _IsWest_new;
+
+            ArrayList<ternary_value> ret = new ArrayList();
+            //search IDs in triples
+            ArrayList<String> IsWestIDs = getInTriples(IsWest_URI);
+            for (String locID: IsWestIDs) {
+                ternary_value value = ternary_value.getInstance(locID, _accessPointName);
+                ret.add(value);
+            }
+
+            return ret;
         }
-        // search in triple store
-        return getInTriples(IsWest_URI);
-    }
 
-    public <T> void setIsWest(List<T> value) {
-        setIsWest(value, true);
-    }
-
-    public <T> void setIsWest(List<T> value, boolean removeOldValues) {
-        if (_IsWest_new == null) {
-            _IsWest_new = getIsWest();
+        public void setIsWest(ternary_value loc) {
+            setIsWest(loc, true);
         }
-        if (removeOldValues) {
-            _IsWest_new.clear();
+
+        public void setIsWest(ternary_value value, boolean removeOldValues) {
+            if (_IsWest_new == null) {
+                _IsWest_new = getIsWest();
+            }
+            if (removeOldValues) {
+                _IsWest_new.clear();
+            }
+            _IsWest_new.add(value);
         }
-        for (T item : value)
-            _IsWest_new.add(item.toString());
-    }
 
-            public void setIsWest(Boolean value) {
-                setIsWest(value, true);
-            }
+        public int getIsWestternary_valueMinCardinality() {
+            return 1;
+        }
 
-            public void setIsWest(Boolean value, boolean removeOldValues) {
-                if (_IsWest_new == null) {
-                    _IsWest_new = getIsWest();
-                }
-                if (removeOldValues) {
-                    _IsWest_new.clear();
-                }
-                _IsWest_new.add(value.toString());
-            }
+        public int getIsWestternary_valueMaxCardinality() {
+            return 1;
+        }
 
-            public void setIsWest(Integer value) {
-                setIsWest(value, true);
-            }
-
-            public void setIsWest(Integer value, boolean removeOldValues) {
-                if (_IsWest_new == null) {
-                    _IsWest_new = getIsWest();
-                }
-                if (removeOldValues) {
-                    _IsWest_new.clear();
-                }
-                _IsWest_new.add(value.toString());
-            }
-
+        public int getIsWestternary_valueExactCardinality() {
+            return 1;
+        }
 
     //============== IsWest =============
     //------------ Name --------------
     private static final String Name_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#name";
     private List<String> _Name_new = null;
+
 
     public List<String> getName() {
         if (_Name_new != null) {
@@ -170,77 +161,78 @@ public class Place extends BaseRDF {
             _Name_new.add(item.toString());
     }
 
-            public void setName(String value) {
-                setName(value, true);
-            }
+    public void setName(String value) {
+        setName(value, true);
+    }
 
-            public void setName(String value, boolean removeOldValues) {
-                if (_Name_new == null) {
-                    _Name_new = getName();
-                }
-                if (removeOldValues) {
-                    _Name_new.clear();
-                }
-                _Name_new.add(value.toString());
-            }
+    public void setName(String value, boolean removeOldValues) {
+        if (_Name_new == null) {
+            _Name_new = getName();
+        }
+        if (removeOldValues) {
+            _Name_new.clear();
+        }
+        _Name_new.add(value.toString());
+    }
 
+    public int getNameStringMinCardinality() {
+        return -1;
+    }
+
+    public int getNameStringMaxCardinality() {
+        return -1;
+    }
+
+    public int getNameStringExactCardinality() {
+        return -1;
+    }
 
     //============== Name =============
     //------------ IsNorth --------------
-    private static final String IsNorth_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#isNorth";
-    private List<String> _IsNorth_new = null;
+        private static final String IsNorth_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#isNorth";
+        private ArrayList<ternary_value> _IsNorth_new = null;
 
-    public List<String> getIsNorth() {
-        if (_IsNorth_new != null) {
-            return _IsNorth_new;
+
+        public ArrayList<ternary_value> getIsNorth() {
+            if (_IsNorth_new != null)
+                return _IsNorth_new;
+
+            ArrayList<ternary_value> ret = new ArrayList();
+            //search IDs in triples
+            ArrayList<String> IsNorthIDs = getInTriples(IsNorth_URI);
+            for (String locID: IsNorthIDs) {
+                ternary_value value = ternary_value.getInstance(locID, _accessPointName);
+                ret.add(value);
+            }
+
+            return ret;
         }
-        // search in triple store
-        return getInTriples(IsNorth_URI);
-    }
 
-    public <T> void setIsNorth(List<T> value) {
-        setIsNorth(value, true);
-    }
-
-    public <T> void setIsNorth(List<T> value, boolean removeOldValues) {
-        if (_IsNorth_new == null) {
-            _IsNorth_new = getIsNorth();
+        public void setIsNorth(ternary_value loc) {
+            setIsNorth(loc, true);
         }
-        if (removeOldValues) {
-            _IsNorth_new.clear();
+
+        public void setIsNorth(ternary_value value, boolean removeOldValues) {
+            if (_IsNorth_new == null) {
+                _IsNorth_new = getIsNorth();
+            }
+            if (removeOldValues) {
+                _IsNorth_new.clear();
+            }
+            _IsNorth_new.add(value);
         }
-        for (T item : value)
-            _IsNorth_new.add(item.toString());
-    }
 
-            public void setIsNorth(Boolean value) {
-                setIsNorth(value, true);
-            }
+        public int getIsNorthternary_valueMinCardinality() {
+            return 1;
+        }
 
-            public void setIsNorth(Boolean value, boolean removeOldValues) {
-                if (_IsNorth_new == null) {
-                    _IsNorth_new = getIsNorth();
-                }
-                if (removeOldValues) {
-                    _IsNorth_new.clear();
-                }
-                _IsNorth_new.add(value.toString());
-            }
+        public int getIsNorthternary_valueMaxCardinality() {
+            return 1;
+        }
 
-            public void setIsNorth(Integer value) {
-                setIsNorth(value, true);
-            }
-
-            public void setIsNorth(Integer value, boolean removeOldValues) {
-                if (_IsNorth_new == null) {
-                    _IsNorth_new = getIsNorth();
-                }
-                if (removeOldValues) {
-                    _IsNorth_new.clear();
-                }
-                _IsNorth_new.add(value.toString());
-            }
-
+        public int getIsNorthternary_valueExactCardinality() {
+            return 1;
+        }
 
     //============== IsNorth =============
     //------------ HasPoint --------------
@@ -276,6 +268,19 @@ public class Place extends BaseRDF {
             }
             _HasPoint_new.add(value);
         }
+
+        public int getHasPointPointMinCardinality() {
+            return -1;
+        }
+
+        public int getHasPointPointMaxCardinality() {
+            return -1;
+        }
+
+        public int getHasPointPointExactCardinality() {
+            return -1;
+        }
+
     //============== HasPoint =============
 
 
@@ -302,30 +307,30 @@ public class Place extends BaseRDF {
 
                         if (_IsWest_new != null) {
                             // получаем старые значения
-                            ArrayList<String> oldVals = getInTriples(IsWest_URI);
-                            Iterator<String> itrNew = _IsWest_new.iterator();
+                            ArrayList<String> oldValsIDs = getInTriples(IsWest_URI);
+                            Iterator<ternary_value> itrNew = _IsWest_new.iterator();
                             while (itrNew.hasNext()) {
-                                String curNew = itrNew.next();
+                                ternary_value curNew = itrNew.next();
                                 // ищем старое значение
-                                Iterator<String> itrOld = oldVals.iterator();
-                                while(itrOld.hasNext()) {
-                                    String curOld = itrOld.next();
-                                    if (curNew.equals(curOld)) {
+                                Iterator<String> itrOldID = oldValsIDs.iterator();
+                                while(itrOldID.hasNext()) {
+                                    String curOldID = itrOldID.next();
+                                    if (curNew.getID().equals(curOldID)) {
                                         itrNew.remove();
-                                        itrOld.remove();
+                                        itrOldID.remove();
                                         break;
                                     }
                                 }
                             }
-                            for(String val : _IsWest_new) {
-                                newTriples.add(createTriple(getID(), IsWest_URI, val, "uri", "literal"));
-                            }
-                            for(String val : oldVals){
+                            _IsWest_new.stream().forEach((ternary_value val) -> {
+                                newTriples.add(createTriple(getID(), IsWest_URI, val.getID(), "uri", "literal"));
+                            });
+                            oldValsIDs.stream().forEach((val) -> {
                                 removeTriples.add(createTriple(getID(), IsWest_URI, val, "uri", "literal"));
-                            }
+                            });
                 	    _IsWest_new = null;
                         }
-                //-----------------------
+                //--------------------
                         if (_Name_new != null) {
                             // получаем старые значения
                             ArrayList<String> oldVals = getInTriples(Name_URI);
@@ -354,30 +359,30 @@ public class Place extends BaseRDF {
                 //-----------------------
                         if (_IsNorth_new != null) {
                             // получаем старые значения
-                            ArrayList<String> oldVals = getInTriples(IsNorth_URI);
-                            Iterator<String> itrNew = _IsNorth_new.iterator();
+                            ArrayList<String> oldValsIDs = getInTriples(IsNorth_URI);
+                            Iterator<ternary_value> itrNew = _IsNorth_new.iterator();
                             while (itrNew.hasNext()) {
-                                String curNew = itrNew.next();
+                                ternary_value curNew = itrNew.next();
                                 // ищем старое значение
-                                Iterator<String> itrOld = oldVals.iterator();
-                                while(itrOld.hasNext()) {
-                                    String curOld = itrOld.next();
-                                    if (curNew.equals(curOld)) {
+                                Iterator<String> itrOldID = oldValsIDs.iterator();
+                                while(itrOldID.hasNext()) {
+                                    String curOldID = itrOldID.next();
+                                    if (curNew.getID().equals(curOldID)) {
                                         itrNew.remove();
-                                        itrOld.remove();
+                                        itrOldID.remove();
                                         break;
                                     }
                                 }
                             }
-                            for(String val : _IsNorth_new) {
-                                newTriples.add(createTriple(getID(), IsNorth_URI, val, "uri", "literal"));
-                            }
-                            for(String val : oldVals){
+                            _IsNorth_new.stream().forEach((ternary_value val) -> {
+                                newTriples.add(createTriple(getID(), IsNorth_URI, val.getID(), "uri", "literal"));
+                            });
+                            oldValsIDs.stream().forEach((val) -> {
                                 removeTriples.add(createTriple(getID(), IsNorth_URI, val, "uri", "literal"));
-                            }
+                            });
                 	    _IsNorth_new = null;
                         }
-                //-----------------------
+                //--------------------
                         if (_HasPoint_new != null) {
                             // получаем старые значения
                             ArrayList<String> oldValsIDs = getInTriples(HasPoint_URI);

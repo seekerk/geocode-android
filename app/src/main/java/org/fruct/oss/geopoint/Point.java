@@ -90,6 +90,7 @@ public class Point extends BaseRDF {
     private static final String HasLongitude_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#hasLongitude";
     private List<String> _HasLongitude_new = null;
 
+
     public List<String> getHasLongitude() {
         if (_HasLongitude_new != null) {
             return _HasLongitude_new;
@@ -113,25 +114,37 @@ public class Point extends BaseRDF {
             _HasLongitude_new.add(item.toString());
     }
 
-            public void setHasLongitude(Double value) {
-                setHasLongitude(value, true);
-            }
+    public void setHasLongitude(Double value) {
+        setHasLongitude(value, true);
+    }
 
-            public void setHasLongitude(Double value, boolean removeOldValues) {
-                if (_HasLongitude_new == null) {
-                    _HasLongitude_new = getHasLongitude();
-                }
-                if (removeOldValues) {
-                    _HasLongitude_new.clear();
-                }
-                _HasLongitude_new.add(value.toString());
-            }
+    public void setHasLongitude(Double value, boolean removeOldValues) {
+        if (_HasLongitude_new == null) {
+            _HasLongitude_new = getHasLongitude();
+        }
+        if (removeOldValues) {
+            _HasLongitude_new.clear();
+        }
+        _HasLongitude_new.add(value.toString());
+    }
 
+    public int getHasLongitudeDoubleMinCardinality() {
+        return -1;
+    }
+
+    public int getHasLongitudeDoubleMaxCardinality() {
+        return -1;
+    }
+
+    public int getHasLongitudeDoubleExactCardinality() {
+        return -1;
+    }
 
     //============== HasLongitude =============
     //------------ HasLatitude --------------
     private static final String HasLatitude_URI = "http://www.semanticweb.org/kulakov/ontologies/2018/0/untitled-ontology-2#hasLatitude";
     private List<String> _HasLatitude_new = null;
+
 
     public List<String> getHasLatitude() {
         if (_HasLatitude_new != null) {
@@ -156,20 +169,31 @@ public class Point extends BaseRDF {
             _HasLatitude_new.add(item.toString());
     }
 
-            public void setHasLatitude(Double value) {
-                setHasLatitude(value, true);
-            }
+    public void setHasLatitude(Double value) {
+        setHasLatitude(value, true);
+    }
 
-            public void setHasLatitude(Double value, boolean removeOldValues) {
-                if (_HasLatitude_new == null) {
-                    _HasLatitude_new = getHasLatitude();
-                }
-                if (removeOldValues) {
-                    _HasLatitude_new.clear();
-                }
-                _HasLatitude_new.add(value.toString());
-            }
+    public void setHasLatitude(Double value, boolean removeOldValues) {
+        if (_HasLatitude_new == null) {
+            _HasLatitude_new = getHasLatitude();
+        }
+        if (removeOldValues) {
+            _HasLatitude_new.clear();
+        }
+        _HasLatitude_new.add(value.toString());
+    }
 
+    public int getHasLatitudeDoubleMinCardinality() {
+        return -1;
+    }
+
+    public int getHasLatitudeDoubleMaxCardinality() {
+        return -1;
+    }
+
+    public int getHasLatitudeDoubleExactCardinality() {
+        return -1;
+    }
 
     //============== HasLatitude =============
 

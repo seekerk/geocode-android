@@ -111,7 +111,7 @@ public class ItemAdapter extends BaseAdapter {
 
         // horizontal position
         if (itm.getIsWest().size() > 0) {
-            String position = itm.getIsWest().get(0);
+            String position = itm.getIsWest().get(0).getValue();
             if (position.equals("true")) {
                 ((CircleImageView)finalView.findViewById(R.id.isWest)).setImageResource(R.drawable.west);
             } else if (position.equals("false")) {
@@ -126,7 +126,7 @@ public class ItemAdapter extends BaseAdapter {
         }
 
         if (itm.getIsNorth().size() > 0) {
-            String position = itm.getIsNorth().get(0);
+            String position = itm.getIsNorth().get(0).getValue();
             if (position.equals("true")) {
                 ((CircleImageView)finalView.findViewById(R.id.isNorth)).setImageResource(R.drawable.north);
             } else if (position.equals("false")) {
